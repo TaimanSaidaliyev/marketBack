@@ -15,6 +15,26 @@ class ProductAllListView(APIView):
         )
 
 
+class ProductHozListView(APIView):
+    def get(self, request):
+        products = Products.objects.filter(category_id=7)
+        return Response(
+            {
+            'products': ProductAllListSerializer(products, many=True).data
+            }
+        )
+
+
+class ProductHealthListView(APIView):
+    def get(self, request):
+        products = Products.objects.filter(generalType=2)
+        return Response(
+            {
+            'products': ProductAllListSerializer(products, many=True).data
+            }
+        )
+
+
 class ProductByIdView(APIView):
     def get(self, request, product_id):
         product = Products.objects.get(pk=product_id)
@@ -63,7 +83,10 @@ class ShopSearchProductView(APIView):
 
 class ShopAllListView(APIView):
     def post(self, request):
-        shops = Shop.objects.all()
+        try:
+            shops = Shop.objects.filter(typeOfShop=request.GET["typeOfShop"])
+        except:
+            shops = Shop.objects.all()
         return Response(
             {
             'shops': ShopAllListSerializer(shops, many=True).data

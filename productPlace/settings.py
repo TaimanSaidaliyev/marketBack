@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'reset_migrations',
-    'mptt'
+    'mptt',
+    'banners'
 ]
 
 MIDDLEWARE = [
