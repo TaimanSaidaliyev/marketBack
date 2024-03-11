@@ -82,7 +82,7 @@ class ShopSearchProductView(APIView):
 
 
 class ShopAllListView(APIView):
-    def post(self, request):
+    def get(self, request):
         try:
             shops = Shop.objects.filter(typeOfShop=request.GET["typeOfShop"])
         except:

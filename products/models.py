@@ -138,6 +138,19 @@ class GeneralCategories(models.Model):
         ordering = ['title']
 
 
+class AdditionalAttributes(models.Model):
+    title = models.CharField(max_length=100, db_index=True, verbose_name='Название атрибута')
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name='Изображение', blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Дополнительные атрибуты'
+        verbose_name_plural = 'Дополнительные атрибуты'
+        ordering = ['title']
+
+
 class Shop(models.Model):
     title = models.CharField(max_length=99, verbose_name='Название магазина')
     description = models.TextField(max_length=500, verbose_name='Описание товара')
@@ -156,6 +169,7 @@ class Shop(models.Model):
     typeOfShop = models.ForeignKey(TypeOfShop, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Тип торговой точки', related_name='get_type_of_shop')
     generalType = models.ManyToManyField(GeneralCategories, blank=True, verbose_name='Общие категории', related_name='get_general_type_of_shop')
     deliveryType = models.ManyToManyField(DeliveryType, blank=True, verbose_name='Методы доставки', related_name='get_delivery_type_of_shop')
+    additionalAttributes = models.ManyToManyField(AdditionalAttributes, blank=True, verbose_name='Дополнительные атрибуты', related_name='get_additional_attributes_of_shop')
 
     def __str__(self):
         return self.title

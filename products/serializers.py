@@ -26,6 +26,7 @@ class ShopAllListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         fields = ('__all__')
+        depth = 2
 
 
 class ProductPriceSerializer(serializers.ModelSerializer):

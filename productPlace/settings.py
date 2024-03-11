@@ -133,6 +133,7 @@ MPTT_ADMIN_LEVEL_INDENT = 20
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'https://65eee5bc38e711377e5ec327--wonderful-starlight-c9929e.netlify.app/',
 ]
 
 STATIC_URL = '/static/'
