@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'productPlace.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Taiman$gau',
+        'NAME': 'Gau',
         'USER': 'Taiman',
-        'PASSWORD': 'kZ82hFtH!',
-        'HOST': 'Taiman.mysql.pythonanywhere-services.com',
+        'PASSWORD': 'Taiman123!',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
