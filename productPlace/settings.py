@@ -86,6 +86,7 @@ DATABASES = {
         'USER': 'Taiman',
         'PASSWORD': 'kZ82hFtH!',
         'HOST': 'Taiman.mysql.pythonanywhere-services.com',
+        'PORT': '3306'
     }
 }
 
