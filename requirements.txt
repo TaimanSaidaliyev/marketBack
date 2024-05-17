@@ -1,0 +1,6 @@
+Django
+Pillow
+djangorestframework
+django-reset-migrations
+django-mptt
+django-cors-headers
