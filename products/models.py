@@ -25,6 +25,7 @@ class City(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, verbose_name='Страна', related_name='city_country')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
+    zoom = models.IntegerField(blank=True, default=12, verbose_name='Зум')
 
     def __str__(self):
         return self.title
@@ -49,10 +50,24 @@ class PremiumStatus(models.Model):
         ordering = ['-created_at']
 
 
+class CommonTypeOfCategory(models.Model):
+    slug = title = models.CharField(max_length=100, unique=True, db_index=True, verbose_name='slug')
+    title = models.CharField(max_length=100, db_index=True, verbose_name='Категории')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Группировка категорий'
+        verbose_name_plural = 'Группировка категорий'
+        ordering = ['title']
+
+
 class Category(MPTTModel):
     title = models.CharField(max_length=100, db_index=True, verbose_name='Категории')
     parent = TreeForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='children')
     photo = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name='Изображение', blank=True)
+    common_type_category = models.ForeignKey(CommonTypeOfCategory, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Группировка категорий', related_name='get_common_category')
 
     def __str__(self):
         return self.title
@@ -89,6 +104,10 @@ class Products (models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Категория', related_name='get_news')
     generalType = models.ManyToManyField(GeneralCategoriesOfProduct, blank=True, verbose_name='Общие категории',
                                          related_name='get_general_type_of_shop')
+    show_calories = models.BooleanField(default=False, verbose_name='Показывать БЖУ')
+    protein = models.FloatField(default=0, null=True, verbose_name='Белки')
+    carbs = models.FloatField(default=0, null=True, verbose_name='Углеводы')
+    fat = models.FloatField(default=0, null=True, verbose_name='Жир')
 
     def __str__(self):
         return self.title
@@ -170,6 +189,7 @@ class Shop(models.Model):
     generalType = models.ManyToManyField(GeneralCategories, blank=True, verbose_name='Общие категории', related_name='get_general_type_of_shop')
     deliveryType = models.ManyToManyField(DeliveryType, blank=True, verbose_name='Методы доставки', related_name='get_delivery_type_of_shop')
     additionalAttributes = models.ManyToManyField(AdditionalAttributes, blank=True, verbose_name='Дополнительные атрибуты', related_name='get_additional_attributes_of_shop')
+    sorting_number = models.IntegerField(blank=True, null=True, verbose_name='Порядок сортировки')
 
     def __str__(self):
         return self.title
@@ -195,5 +215,4 @@ class ProductPrice(models.Model):
         verbose_name = 'Цены на товары'
         verbose_name_plural = 'Цены на товары'
         ordering = ['-created_at']
-
 

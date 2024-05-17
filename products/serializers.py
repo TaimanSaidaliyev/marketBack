@@ -16,6 +16,11 @@ class ProductAllListSerializer(serializers.ModelSerializer):
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
+    min_price = serializers.SerializerMethodField()
+
+    def get_min_price(self, obj):
+        return obj.product_product_price.aggregate(min_price=Min('price'))['min_price']
+
     class Meta:
         model = Products
         fields = ('__all__')
@@ -39,5 +44,61 @@ class ProductPriceSerializer(serializers.ModelSerializer):
 class CategoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
+        fields = ('__all__')
+        depth = 2
+
+
+class ProductGeneralTypeListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeneralCategoriesOfProduct
+        fields = ('__all__')
+        depth = 2
+
+
+class CitiesListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ('__all__')
+        depth = 2
+
+
+class DeliveryTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DeliveryType
+        fields = ('__all__')
+        depth = 2
+
+
+class AdditionalAttributesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdditionalAttributes
+        fields = ('__all__')
+        depth = 2
+
+
+class GeneralCategoriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeneralCategories
+        fields = ('__all__')
+        depth = 2
+
+
+class TypeOfShopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TypeOfShop
+        fields = ('__all__')
+        depth = 2
+
+
+class PremiumStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PremiumStatus
+        fields = ('__all__')
+        depth = 2
+
+
+class CommonTypeOfCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommonTypeOfCategory
         fields = ('__all__')
         depth = 2

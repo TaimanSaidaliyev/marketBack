@@ -40,7 +40,12 @@ INSTALLED_APPS = [
     'products',
     'reset_migrations',
     'mptt',
-    'banners'
+    'banners',
+    'reviews',
+    'faq',
+    'subscription',
+    'pages',
+    'configs'
 ]
 
 MIDDLEWARE = [
@@ -79,24 +84,24 @@ WSGI_APPLICATION = 'productPlace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Taiman$gau',
-        'USER': 'Taiman',
-        'PASSWORD': 'kZ82hFtH!',
-        'HOST': 'Taiman.mysql.pythonanywhere-services.com',
-        'PORT': '3306'
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'Taiman$gau',
+#         'USER': 'Taiman',
+#         'PASSWORD': 'kZ82hFtH!',
+#         'HOST': 'Taiman.mysql.pythonanywhere-services.com',
+#         'PORT': '3306'
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -142,9 +147,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MPTT_ADMIN_LEVEL_INDENT = 20
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'http://localhost:5173',
     'https://65eee5bc38e711377e5ec327--wonderful-starlight-c9929e.netlify.app/',
 ]
 
