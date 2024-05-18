@@ -1,6 +1,8 @@
 Django
-Pillow
+pillow
 djangorestframework
 django-reset-migrations
 django-mptt
 django-cors-headers
+geopy
+psycopg2-binary
