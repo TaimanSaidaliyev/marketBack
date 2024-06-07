@@ -24,6 +24,7 @@ urlpatterns = [
     path('category/<int:category_id>/products/', ProductsByCategory.as_view()),
     path('shops/<int:product_id>/products/', ShopsByProduct.as_view()),
     path('banners/list/', BannersList.as_view()),
+    path('banners/detail/<int:banner_id>/', BannerDetail.as_view()),
     path('product_general_types/list/', ProductGeneralTypeList.as_view()),
     path('cities/list/', CitiesList.as_view()),
     path('shop/dict/', ShopAttributesDict.as_view()),

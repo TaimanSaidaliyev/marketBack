@@ -14,3 +14,12 @@ class BannersList(APIView):
                 'banners': BannersSerializer(banners, many=True).data
             }
         )
+
+
+class BannerDetail(APIView):
+    def get(self, request, banner_id):
+        banner = Banners.objects.get(pk=banner_id)
+        return Response({
+            'banner': BannersSerializer(banner, many=False).data
+        })
+
