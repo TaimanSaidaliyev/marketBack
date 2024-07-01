@@ -13,7 +13,6 @@ class FAQList(APIView):
 class FAQContactForm(APIView):
     def post(self, request):
         serializer = FAQContactFormSerializer(data=request.data)
-        print(request.data)
         if serializer.is_valid():
             try:
                 serializer.save()

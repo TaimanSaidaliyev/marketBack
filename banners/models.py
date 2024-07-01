@@ -12,6 +12,7 @@ class Banners(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
     city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Город', related_name='banner_city')
+    deadline_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания акции')
 
     def __str__(self):
         return self.title

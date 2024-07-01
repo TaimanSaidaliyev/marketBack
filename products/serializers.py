@@ -27,7 +27,15 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class ShopImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShopImage
+        fields = ('id', 'image', 'description')
+
+
 class ShopAllListSerializer(serializers.ModelSerializer):
+    images = ShopImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Shop
         fields = ('__all__')

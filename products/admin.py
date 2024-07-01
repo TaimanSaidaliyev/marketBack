@@ -2,8 +2,18 @@ from django.contrib import admin
 from .models import *
 from mptt.admin import MPTTModelAdmin
 
+
+class ShopImageInline(admin.TabularInline):
+    model = ShopImage
+    extra = 1
+
+
+class ShopAdmin(admin.ModelAdmin):
+    inlines = [ShopImageInline]
+
+
 admin.site.register(Products)
-admin.site.register(Shop)
+admin.site.register(Shop, ShopAdmin)
 admin.site.register(City)
 admin.site.register(Country)
 admin.site.register(ProductPrice)

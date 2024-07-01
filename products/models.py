@@ -184,12 +184,16 @@ class Shop(models.Model):
     address = models.CharField(max_length=2000, verbose_name='Адрес магазина')
     workTime = models.CharField(max_length=99, verbose_name='Режим работы магазина')
     phoneNumber = models.CharField(max_length=99, verbose_name='Телефон')
+    instagram_login = models.CharField(blank=True, null=True, max_length=50, verbose_name='Instagram Логин')
+    tiktok_login = models.CharField(blank=True, null=True, max_length=50, verbose_name='Tiktok Логин')
+    web_site = models.CharField(blank=True, null=True, max_length=200, verbose_name='Ссылка на сайт')
     premium_status = models.ForeignKey(PremiumStatus, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Статус магазина', related_name='get_shop_status')
     typeOfShop = models.ForeignKey(TypeOfShop, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Тип торговой точки', related_name='get_type_of_shop')
     generalType = models.ManyToManyField(GeneralCategories, blank=True, verbose_name='Общие категории', related_name='get_general_type_of_shop')
     deliveryType = models.ManyToManyField(DeliveryType, blank=True, verbose_name='Методы доставки', related_name='get_delivery_type_of_shop')
     additionalAttributes = models.ManyToManyField(AdditionalAttributes, blank=True, verbose_name='Дополнительные атрибуты', related_name='get_additional_attributes_of_shop')
     sorting_number = models.IntegerField(blank=True, null=True, verbose_name='Порядок сортировки')
+    youtube_src = models.CharField(blank=True, null=True, max_length=1000, verbose_name='Ссылка на Youtube')
 
     def __str__(self):
         return self.title
@@ -198,6 +202,19 @@ class Shop(models.Model):
         verbose_name = 'Торговая точка'
         verbose_name_plural = 'Торговая точка'
         ordering = ['-created_at']
+
+
+class ShopImage(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='shop_images/%Y/%m/%d', verbose_name='Изображение')
+    description = models.CharField(max_length=255, blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return f"Image for {self.shop.title}"
+
+    class Meta:
+        verbose_name = 'Изображение магазина'
+        verbose_name_plural = 'Изображения магазина'
 
 
 class ProductPrice(models.Model):

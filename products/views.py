@@ -23,7 +23,7 @@ class ProductAllListView(APIView):
 
         try:
             if search or len(search) > 2:
-                products = products.filter(Q(title__icontains=search) | Q(description__icontains=search))
+                products = products.filter(Q(title__icontains=search) | Q(description__icontains=search) | Q(category__title__icontains=search) | Q(generalType__title__icontains=search))
         except:
             None
 
@@ -93,7 +93,7 @@ class ShopSearchView(APIView):
         if field_text == 'empty':
             shops = Shop.objects.all()
         else:
-            shops = Shop.objects.filter(title__contains=field_text)
+            shops = Shop.objects.filter(title__icontains=field_text)
         return Response(
             {
                 'shops': ShopAllListSerializer(shops, many=True).data
@@ -220,7 +220,8 @@ class ProductsByCategory(APIView):
 class ProductsBySearch(APIView):
     def put(self, request):
         search_text = request.data.get('search_text')
-        products = Products.objects.filter(Q(category__title__icontains=search_text) | Q(title__icontains=search_text))
+        products = Products.objects.filter(Q(category__title__icontains=search_text) | Q(title__icontains=search_text)
+                                           | Q(category__title__icontains=search_text) | Q(generalType__title__icontains=search_text))
         return Response(
             {
                 'list': ProductAllListSerializer(products, many=True).data
@@ -295,15 +296,33 @@ class RecentlyViewed(APIView):
         get_data = request.data
         list_v = []
         for item in get_data:
-            item_type = item['type']
-            item_id = item['id']
-            if item_type == 'shop':
-                shop = get_object_or_404(Shop, pk=item_id)
-                list_v.append({'id': shop.id, 'title': shop.title, 'photo': shop.photo.url, 'type': 'shop', 'category': shop.typeOfShop.title})
-            elif item_type == 'product':
-                product = get_object_or_404(Products, pk=item_id)
-                list_v.append({'id': product.id, 'title': product.title, 'photo': product.photo.url, 'type': 'product', 'category': product.category.title})
+            try:
+                item_type = item['type']
+                item_id = item['id']
+                if item_type == 'shop':
+                    shop = get_object_or_404(Shop, pk=item_id)
+                    photo_url = shop.photo.url if shop.photo else ''
+                    list_v.append({
+                        'id': shop.id,
+                        'title': shop.title,
+                        'photo': photo_url,
+                        'type': 'shop',
+                        'category': shop.typeOfShop.title
+                    })
+                elif item_type == 'product':
+                    product = get_object_or_404(Products, pk=item_id)
+                    photo_url = product.photo.url if product.photo else ''
+                    list_v.append({
+                        'id': product.id,
+                        'title': product.title,
+                        'photo': photo_url,
+                        'type': 'product',
+                        'category': product.category.title
+                    })
+            except:
+                None
         return Response(list_v)
+
 
 
 class MightInterestedProducts(APIView):

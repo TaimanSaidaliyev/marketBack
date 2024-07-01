@@ -1,5 +1,6 @@
 from rest_framework.views import APIView, Response
 from .serializers import *
+from datetime import date
 
 
 class BannersList(APIView):
@@ -9,6 +10,7 @@ class BannersList(APIView):
 
         if city:
             banners = banners.filter(city=city)
+        banners = banners.filter(deadline_date__gte=date.today())
         return Response(
             {
                 'banners': BannersSerializer(banners, many=True).data
