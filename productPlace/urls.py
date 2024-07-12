@@ -35,4 +35,6 @@ urlpatterns = [
     path('subscription/', include('subscription.urls')),
     path('page/', include('pages.urls')),
     path('configs/', include('configs.urls')),
+    path('statistics/', include('statistics_gau.urls')),
+    path('reviews_shop/', include('reviews_shop.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
