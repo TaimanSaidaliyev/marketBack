@@ -92,8 +92,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'nurbek',
         'PASSWORD': 'Astana2023',
-        'HOST': 'ner.kz',
-        # 'HOST': '192.168.0.102',
+        # 'HOST': 'ner.kz',
+        'HOST': '91.243.71.28',
         'PORT': '5432'
     }
 }
