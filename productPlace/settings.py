@@ -36,11 +36,13 @@ ALLOWED_HOSTS = [
     'doc.ner.kz',
     '91.243.71.28',
     'gau.kz',
-    'doc.gau.kz'
+    'doc.gau.kz',
+    'www.doc.gau.kz'
 ]
 
 
 # Application definition
+CSRF_TRUSTED_ORIGINS = ['https://doc.gau.kz']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
