@@ -90,13 +90,25 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'nurbek',
-        'PASSWORD': 'Astana2023',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         # 'HOST': 'ner.kz',
         'HOST': '91.243.71.28',
         'PORT': '5432'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'nurbek',
+#         'PASSWORD': 'Astana2023',
+#         # 'HOST': 'ner.kz',
+#         'HOST': '91.243.71.28',
+#         'PORT': '5432'
+#     }
+# }
 
 
 # DATABASES = {
