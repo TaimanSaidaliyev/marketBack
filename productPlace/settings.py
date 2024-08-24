@@ -34,7 +34,9 @@ ALLOWED_HOSTS = [
     'ner.kz',
     '192.168.0.102',
     'doc.ner.kz',
-    '91.243.71.28'
+    '91.243.71.28',
+    'gau.kz',
+    'doc.gau.kz'
 ]
 
 
