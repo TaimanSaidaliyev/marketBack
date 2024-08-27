@@ -181,7 +181,7 @@ class Shop(models.Model):
     coordinate_w = models.FloatField(default=0, blank=False, null=False, verbose_name='Ширина')
     coordinate_h = models.FloatField(default=0, blank=False, null=False, verbose_name='Долгота')
     city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, verbose_name='Город', related_name='shop_city')
-    address = models.CharField(max_length=2000, verbose_name='Адрес магазина')
+    address = models.CharField(blank=True, null=True, max_length=2000, verbose_name='Адрес магазина')
     workTime = models.CharField(max_length=99, verbose_name='Режим работы магазина')
     phoneNumber = models.CharField(max_length=99, verbose_name='Телефон')
     instagram_login = models.CharField(blank=True, null=True, max_length=50, verbose_name='Instagram Логин')

@@ -12,7 +12,10 @@ class ShopAdmin(admin.ModelAdmin):
     inlines = [ShopImageInline]
 
 
-admin.site.register(Products)
+class ProductsAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'description']  # Поля, по которым будет производиться поиск
+
+admin.site.register(Products, ProductsAdmin)
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(City)
 admin.site.register(Country)
