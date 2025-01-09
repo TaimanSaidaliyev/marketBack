@@ -6,3 +6,5 @@ django-mptt
 django-cors-headers
 geopy
 psycopg2-binary
+django-ipware
+requests

@@ -28,3 +28,5 @@ class ProductViewStatistics(models.Model):
         verbose_name = 'Статистика по продуктам'
         verbose_name_plural = 'Статистика по продуктам'
         ordering = ['product']
+
+
