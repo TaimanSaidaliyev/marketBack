@@ -10,7 +10,7 @@ class BannersList(APIView):
 
         if city:
             banners = banners.filter(city=city)
-        banners = banners.filter(deadline_date__gte=date.today())
+        banners = banners.filter(deadline_date__gte=date.today()).order_by('-sorting_number')
         return Response(
             {
                 'banners': BannersSerializer(banners, many=True).data

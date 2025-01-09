@@ -13,6 +13,7 @@ class Banners(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
     city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Город', related_name='banner_city')
     deadline_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания акции')
+    sorting_number = models.IntegerField(blank=True, null=True, verbose_name='Порядок сортировки')
 
     def __str__(self):
         return self.title

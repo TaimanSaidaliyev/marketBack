@@ -1,10 +1,9 @@
-from django.shortcuts import render
 from rest_framework.views import APIView, Response
-from .models import *
 from .serializers import *
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from utils.distance import *
+from productPlace.config import *
 
 
 class ProductAllListView(APIView):
@@ -91,9 +90,12 @@ class ProductByIdView(APIView):
 class ShopSearchView(APIView):
     def post(self, request, field_text):
         if field_text == 'empty':
-            shops = Shop.objects.all()
+            if SHOW_HIDDEN_ESTABLISHMENT:
+                shops = Shop.objects.all()
+            else:
+                shops = Shop.objects.filter(is_published=True)
         else:
-            shops = Shop.objects.filter(title__icontains=field_text)
+            shops = Shop.objects.filter(title__icontains=field_text, is_published=True)
         return Response(
             {
                 'shops': ShopAllListSerializer(shops, many=True).data
@@ -103,7 +105,10 @@ class ShopSearchView(APIView):
 
 class ShopSingleView(APIView):
     def get(self, request, shop_id):
-        shop = Shop.objects.get(pk=shop_id)
+        if SHOW_HIDDEN_ESTABLISHMENT:
+            shop = Shop.objects.get(pk=shop_id)
+        else:
+            shop = Shop.objects.filter(is_published=True).get(pk=shop_id)
         return Response(
             {
                 'shop': ShopAllListSerializer(shop, many=False).data
@@ -114,9 +119,15 @@ class ShopSingleView(APIView):
 class ShopSearchProductView(APIView):
     def post(self, request, field_text):
         if field_text == 'empty':
-            shops = Shop.objects.all()
+            if SHOW_HIDDEN_ESTABLISHMENT:
+                shops = Shop.objects.all()
+            else:
+                shops = Shop.objects.all().filter(is_published=True)
         else:
-            shops = Shop.objects.filter(title__contains=field_text)
+            if SHOW_HIDDEN_ESTABLISHMENT:
+                shops = Shop.objects.filter(title__contains=field_text)
+            else:
+                shops = Shop.objects.filter(title__contains=field_text).filter(is_published=True)
         return Response(
             {
                 'shops': ShopAllListSerializer(shops, many=True).data
@@ -136,7 +147,10 @@ class ShopAllListView(APIView):
         coordinate_w_t = float(request.query_params.get('coordinate_w_t', 0))
         coordinate_h_t = float(request.query_params.get('coordinate_h_t', 0))
 
-        shops = Shop.objects.all().order_by('-sorting_number')
+        if SHOW_HIDDEN_ESTABLISHMENT:
+            shops = Shop.objects.all().order_by('-sorting_number')
+        else:
+            shops = Shop.objects.all().order_by('-sorting_number').filter(is_published=True)
 
         if types_of_shops:
             type_ids = [int(id) for id in types_of_shops.split(',')]
@@ -248,7 +262,10 @@ class CategoryList(APIView):
 class ShopsByProduct(APIView):
     def get(self, request, product_id):
         city = request.query_params.get('city')
-        shops = ProductPrice.objects.filter(product_id=product_id).order_by('price')
+        if SHOW_HIDDEN_ESTABLISHMENT:
+            shops = ProductPrice.objects.filter(product_id=product_id).order_by('price')
+        else:
+            shops = ProductPrice.objects.filter(product_id=product_id).filter(shop__is_published=True).order_by('price')
 
         if city:
             shops = shops.filter(shop__city=city)
@@ -300,7 +317,11 @@ class RecentlyViewed(APIView):
                 item_type = item['type']
                 item_id = item['id']
                 if item_type == 'shop':
-                    shop = get_object_or_404(Shop, pk=item_id)
+                    if SHOW_HIDDEN_ESTABLISHMENT:
+                        shop = get_object_or_404(Shop, pk=item_id)
+                    else:
+                        shop = get_object_or_404(Shop, pk=item_id, is_published=True)
+
                     photo_url = shop.photo.url if shop.photo else ''
                     list_v.append({
                         'id': shop.id,
@@ -322,7 +343,6 @@ class RecentlyViewed(APIView):
             except:
                 None
         return Response(list_v)
-
 
 
 class MightInterestedProducts(APIView):
