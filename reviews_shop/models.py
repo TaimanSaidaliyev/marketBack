@@ -12,6 +12,7 @@ class ReviewsShop(models.Model):
                              related_name='shop_reviews')
     telephone = models.CharField(max_length=99, blank=True, null=True, verbose_name='Номер телефона')
     photo = models.ImageField(upload_to='photos/reviews_shop/%Y/%m/%d', verbose_name='Изображение', blank=True)
+    is_published = models.BooleanField(default=False, blank=True, null=True, verbose_name='Опубликовано')
 
     def __str__(self):
         return f"{self.shop.title} - {self.user} - {self.description[:20]} - {self.grade}"

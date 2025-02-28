@@ -30,6 +30,8 @@ urlpatterns = [
     path('shop/dict/', ShopAttributesDict.as_view()),
     path('recently/', RecentlyViewed.as_view()),
     path('common_category/dict/', CommonTypeOfCategoryDict.as_view()),
+    path('special_menu/<int:shop_id>/', SpecialMenuApiView.as_view()),
+    path('special_menu/', SpecialMenuApiView.as_view()),
     path('reviews/', include('reviews.urls')),
     path('faq/', include('faq.urls')),
     path('subscription/', include('subscription.urls')),

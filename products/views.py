@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from utils.distance import *
 from productPlace.config import *
+from datetime import date
 
 
 class ProductAllListView(APIView):
@@ -377,3 +378,13 @@ class GeneralCategoriesDict(APIView):
         return Response(
             GeneralCategoriesSerializer(generalCategories, many=True).data
         )
+
+
+class SpecialMenuApiView(APIView):
+    def get(self, request, shop_id=None):
+        if shop_id:
+            specialMenu = SpecialMenu.objects.filter(shop_id=shop_id, deadline_date__gte=date.today())
+        else:
+            specialMenu = SpecialMenu.objects.filter(deadline_date__gte=date.today())
+
+        return Response(SpecialMenuSerializer(specialMenu, many=True).data)

@@ -2,6 +2,10 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 
+class SpecialMenuType(models.TextChoices):
+    ORAZA = 'oraza', 'Oraza'
+
+
 class Country(models.Model):
     title = models.CharField(max_length=99, verbose_name='Страна')
     coordinate_w = models.FloatField(default=0, blank=False, null=False, verbose_name='Ширина')
@@ -233,3 +237,20 @@ class ProductPrice(models.Model):
         verbose_name_plural = 'Цены на товары'
         ordering = ['-created_at']
 
+
+class SpecialMenu(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, blank=True, verbose_name='Магазин', related_name='select_special_shop')
+    type_value = models.CharField(max_length=64, choices=SpecialMenuType.choices, default=SpecialMenuType.ORAZA, verbose_name='Вид меню')
+    title = models.CharField(max_length=99, verbose_name='Название меню', blank=True, null=True)
+    deadline_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания меню')
+    description = models.TextField(max_length=500, verbose_name='Содержание меню')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
+
+    def __str__(self):
+        return self.shop.title
+
+    class Meta:
+        verbose_name = 'Специальное меню'
+        verbose_name_plural = 'Специальное меню'
+        ordering = ['-created_at']

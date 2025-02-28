@@ -110,3 +110,9 @@ class CommonTypeOfCategorySerializer(serializers.ModelSerializer):
         model = CommonTypeOfCategory
         fields = ('__all__')
         depth = 2
+
+
+class SpecialMenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SpecialMenu
+        fields = ('__all__')
